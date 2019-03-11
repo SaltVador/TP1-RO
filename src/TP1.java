@@ -51,28 +51,48 @@ public class TP1 {
 
     private boolean estLibre(int i, int j){ return labyrinthe[i][j] == '_' || labyrinthe[i][j] == 'S'; }
 
-    private boolean aGauche(int i, int j){ return estLibre(i - 1, j); }
+    private boolean aGauche(int i, int j){
+        if (i==0){
+            return false;
+        } else return estLibre(i - 1, j);
+    }
 
-    private boolean aDroite(int i, int j){ return estLibre(i + 1, j); }
+    private boolean aDroite(int i, int j){
+        if (i == labyrinthe.length){
+            return false;
+        }else return estLibre(i + 1, j);
+    }
 
-    private boolean enHaut(int i, int j){ return estLibre(i, j - 1); }
+    private boolean enHaut(int i, int j){
+        if (j==0){
+            return false;
+        } else return estLibre(i, j - 1);
+    }
 
-    private boolean enBas(int i, int j){ return estLibre(i, j + 1); }
+    private boolean enBas(int i, int j){
+        if (j==labyrinthe[0].length){
+            return false;
+        } else return estLibre(i, j + 1);
+    }
 
     public int enLargeur(){
         int i = startI;
         int j = startJ;
         while (labyrinthe[i][j] != 'S') {
             if (enHaut(i,j)) {
+                System.out.println("haut");
                 labyrinthe[i][j] = labyrinthe[i][j - 1];
                 longueur += 1;
             } else if (enBas(i,j)) {
+                System.out.println("bas");
                 labyrinthe[i][j] = labyrinthe[i][j + 1];
                 longueur += 1;
             } else if (aDroite(i,j)) {
+                System.out.println("droite");
                 labyrinthe[i][j] = labyrinthe[i + 1][j];
                 longueur += 1;
             } else if (aGauche(i,j)) {
+                System.out.println("gauche");
                 labyrinthe[i][j] = labyrinthe[i - 1][j];
                 longueur += 1;
             }
@@ -80,5 +100,9 @@ public class TP1 {
         return longueur;
     }
 
+    public static void main (String[] agrs){
+        TP1 lab = new TP1();
+        System.out.println(lab.enLargeur());
+    }
 
 }
