@@ -27,7 +27,7 @@ public class TP1 {
                 int j = 0;
                 for (char var : tab) {
                     res[i][j] = var;
-                    if (var == 'e'){
+                    if (var == 'E'){
                         this.startI=i;
                         this.startJ=j;
                     }
@@ -49,8 +49,6 @@ public class TP1 {
     }
 
 
-
-
     private boolean estLibre(int i, int j){ return labyrinthe[i][j] == '_' || labyrinthe[i][j] == 'S'; }
 
     private boolean aGauche(int i, int j){ return estLibre(i - 1, j); }
@@ -62,7 +60,9 @@ public class TP1 {
     private boolean enBas(int i, int j){ return estLibre(i, j + 1); }
 
     public int enLargeur(){
-        while (i <= labyrinthe.length && j <= labyrinthe[0].length) {
+        int i = startI;
+        int j = startJ;
+        while (labyrinthe[i][j] != 'S') {
             if (enHaut(i,j)) {
                 labyrinthe[i][j] = labyrinthe[i][j - 1];
                 longueur += 1;
