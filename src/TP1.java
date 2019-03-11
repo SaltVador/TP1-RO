@@ -6,12 +6,9 @@ import java.io.IOException;
 public class TP1 {
 
     private char[][] labyrinthe;
-    private int starti,startj;
-
-
-    public static void main(String[] args) {
-        System.out.println("HELLO");
-    }
+    //Coordonnées de la case de départ
+    private int startI, startJ;
+    private int longueur = 0;
 
     public TP1(){
         labyrinthe = init();
@@ -31,8 +28,8 @@ public class TP1 {
                 for (char var : tab) {
                     res[i][j] = var;
                     if (var == 'e'){
-                        this.starti=i;
-                        this.startj=j;
+                        this.startI=i;
+                        this.startJ=j;
                     }
                     j++;
                 }
@@ -51,6 +48,37 @@ public class TP1 {
         return null;
     }
 
+
+
+
+    private boolean estLibre(int i, int j){ return labyrinthe[i][j] == '_' || labyrinthe[i][j] == 'S'; }
+
+    private boolean aGauche(int i, int j){ return estLibre(i - 1, j); }
+
+    private boolean aDroite(int i, int j){ return estLibre(i + 1, j); }
+
+    private boolean enHaut(int i, int j){ return estLibre(i, j - 1); }
+
+    private boolean enBas(int i, int j){ return estLibre(i, j + 1); }
+
+    public int enLargeur(){
+        while (i <= labyrinthe.length && j <= labyrinthe[0].length) {
+            if (enHaut(i,j)) {
+                labyrinthe[i][j] = labyrinthe[i][j - 1];
+                longueur += 1;
+            } else if (enBas(i,j)) {
+                labyrinthe[i][j] = labyrinthe[i][j + 1];
+                longueur += 1;
+            } else if (aDroite(i,j)) {
+                labyrinthe[i][j] = labyrinthe[i + 1][j];
+                longueur += 1;
+            } else if (aGauche(i,j)) {
+                labyrinthe[i][j] = labyrinthe[i - 1][j];
+                longueur += 1;
+            }
+        }
+        return longueur;
+    }
 
 
 }
