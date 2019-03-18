@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TP1 {
 
@@ -62,6 +63,7 @@ public class TP1 {
 
 
     private boolean estLibre(int i, int j){ return labyrinthe[i][j] == '_' || labyrinthe[i][j] == 'S'; }
+    private boolean estFin(int i, int j){ return labyrinthe[i][j] == 'S'; }
 
     private boolean aGauche(int i, int j,String prec){
         if (j==0 || prec.equals("droite")){
@@ -87,7 +89,7 @@ public class TP1 {
         } else return estLibre(i+1, j);
     }
 
-    public int enLargeur(){
+    /*public int enLargeur(){
         int i = startI;
         int j = startJ;
         String prec = "";
@@ -115,11 +117,57 @@ public class TP1 {
             }
         }
         return longueur;
+    }*/
+
+    public int enLargeurV2(){
+
+        Case grr = new Case(startI,startJ,0,"");
+        ArrayList<Case> frontiere = new ArrayList<Case>();
+        frontiere.add(grr);
+        while(!frontiere.isEmpty()){
+            Case test = frontiere.get(0);
+            if (enHaut(test.getI(),test.getJ(),test.getPrec())) {
+                Case enPlus = new Case(test.getI()-1,test.getJ(),test.getLongueur()+1,"haut");
+                System.out.println("haut i = "+enPlus.getI()+"  j = "+enPlus.getJ());
+                frontiere.add(enPlus);
+                if (estFin(enPlus.getI(),enPlus.getJ())){
+                    return enPlus.getLongueur();
+                }
+            }
+            if (enBas(test.getI(),test.getJ(),test.getPrec())) {
+                Case enPlus = new Case(test.getI()+1,test.getJ(),test.getLongueur()+1,"bas");
+                System.out.println("bas i = "+enPlus.getI()+"  j = "+enPlus.getJ());
+                frontiere.add(enPlus);
+                if (estFin(enPlus.getI(),enPlus.getJ())){
+                    return enPlus.getLongueur();
+                }
+            }
+            if (aDroite(test.getI(),test.getJ(),test.getPrec())) {
+                Case enPlus = new Case(test.getI(),test.getJ()+1,test.getLongueur()+1,"droite");
+                System.out.println("droite i = "+enPlus.getI()+"  j = "+enPlus.getJ());
+                frontiere.add(enPlus);
+                if (estFin(enPlus.getI(),enPlus.getJ())){
+                    return enPlus.getLongueur();
+                }
+            }
+            if (aGauche(test.getI(),test.getJ(),test.getPrec())) {
+                Case enPlus = new Case(test.getI(),test.getJ()-1,test.getLongueur()+1,"gauche");
+                System.out.println("gauche i = "+enPlus.getI()+"  j = "+enPlus.getJ());
+                frontiere.add(enPlus);
+                if (estFin(enPlus.getI(),enPlus.getJ())){
+                    return enPlus.getLongueur();
+                }
+            }
+
+            frontiere.remove(0);
+        }
+
+        return 0;
     }
 
     public static void main (String[] agrs){
         TP1 lab = new TP1();
-        System.out.println(lab.enLargeur());
+        System.out.println(lab.enLargeurV2());
     }
 
 }
