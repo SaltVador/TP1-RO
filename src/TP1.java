@@ -37,6 +37,18 @@ public class TP1 {
             }
 
             br.close();
+
+            for (int x = 0; x<20; x++){
+                StringBuilder p = new StringBuilder();
+                for (int y = 0; y<20;y++){
+                    p.append(res[x][y]);
+                }
+                System.out.println(p);
+            }
+
+            System.out.println(startI);
+            System.out.println(startJ);
+
             return res;
 
         } catch (FileNotFoundException e) {
@@ -51,49 +63,54 @@ public class TP1 {
 
     private boolean estLibre(int i, int j){ return labyrinthe[i][j] == '_' || labyrinthe[i][j] == 'S'; }
 
-    private boolean aGauche(int i, int j){
-        if (i==0){
+    private boolean aGauche(int i, int j,String prec){
+        if (j==0 || prec.equals("droite")){
             return false;
-        } else return estLibre(i - 1, j);
+        } else return estLibre(i , j - 1);
     }
 
-    private boolean aDroite(int i, int j){
-        if (i == labyrinthe.length){
+    private boolean aDroite(int i, int j, String prec){
+        if (j == labyrinthe.length || prec.equals("gauche")){
             return false;
-        }else return estLibre(i + 1, j);
+        }else return estLibre(i, j+1);
     }
 
-    private boolean enHaut(int i, int j){
-        if (j==0){
+    private boolean enHaut(int i, int j, String prec){
+        if (i==0 || prec.equals("bas")){
             return false;
-        } else return estLibre(i, j - 1);
+        } else return estLibre(i-1, j);
     }
 
-    private boolean enBas(int i, int j){
-        if (j==labyrinthe[0].length){
+    private boolean enBas(int i, int j, String prec){
+        if (i==labyrinthe[0].length || prec.equals("haut")){
             return false;
-        } else return estLibre(i, j + 1);
+        } else return estLibre(i+1, j);
     }
 
     public int enLargeur(){
         int i = startI;
         int j = startJ;
+        String prec = "";
         while (labyrinthe[i][j] != 'S') {
-            if (enHaut(i,j)) {
-                System.out.println("haut");
-                labyrinthe[i][j] = labyrinthe[i][j - 1];
+            if (enHaut(i,j,prec)) {
+                prec = "haut";
+                System.out.println("haut i = "+i+"  j = "+j);
+                i--;
                 longueur += 1;
-            } else if (enBas(i,j)) {
-                System.out.println("bas");
-                labyrinthe[i][j] = labyrinthe[i][j + 1];
+            } else if (enBas(i,j,prec)) {
+                prec = "bas";
+                System.out.println("bas i = "+i+"  j = "+j);
+                i++;
                 longueur += 1;
-            } else if (aDroite(i,j)) {
-                System.out.println("droite");
-                labyrinthe[i][j] = labyrinthe[i + 1][j];
+            } else if (aDroite(i,j,prec)) {
+                prec = "droite";
+                System.out.println("droite i = "+i+"  j = "+j);
+                j++;
                 longueur += 1;
-            } else if (aGauche(i,j)) {
-                System.out.println("gauche");
-                labyrinthe[i][j] = labyrinthe[i - 1][j];
+            } else if (aGauche(i,j,prec)) {
+                prec = "gauche";
+                System.out.println("gauche i = "+i+"  j = "+j);
+                j--;
                 longueur += 1;
             }
         }
