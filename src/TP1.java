@@ -89,37 +89,8 @@ public class TP1 {
         } else return estLibre(i+1, j);
     }
 
-    /*public int enLargeur(){
-        int i = startI;
-        int j = startJ;
-        String prec = "";
-        while (labyrinthe[i][j] != 'S') {
-            if (enHaut(i,j,prec)) {
-                prec = "haut";
-                System.out.println("haut i = "+i+"  j = "+j);
-                i--;
-                longueur += 1;
-            } else if (enBas(i,j,prec)) {
-                prec = "bas";
-                System.out.println("bas i = "+i+"  j = "+j);
-                i++;
-                longueur += 1;
-            } else if (aDroite(i,j,prec)) {
-                prec = "droite";
-                System.out.println("droite i = "+i+"  j = "+j);
-                j++;
-                longueur += 1;
-            } else if (aGauche(i,j,prec)) {
-                prec = "gauche";
-                System.out.println("gauche i = "+i+"  j = "+j);
-                j--;
-                longueur += 1;
-            }
-        }
-        return longueur;
-    }*/
 
-    public int enLargeurV2(){
+    public int enLargeur(){
 
         Case grr = new Case(startI,startJ,0,"");
         ArrayList<Case> frontiere = new ArrayList<Case>();
@@ -165,9 +136,20 @@ public class TP1 {
         return 0;
     }
 
+    public int enProfondeur(){
+
+        Case grr = new Case(startI,startJ,0,"");
+        ArrayList<Case> frontiere = new ArrayList<Case>();
+        frontiere.add(grr);
+
+
+
+        return 0;
+    };
+
     public static void main (String[] agrs){
         TP1 lab = new TP1();
-        System.out.println(lab.enLargeurV2());
+        System.out.println(lab.enLargeur());
     }
 
 }
