@@ -65,72 +65,99 @@ public class TP1 {
     private boolean estLibre(int i, int j){ return labyrinthe[i][j] == '_' || labyrinthe[i][j] == 'S'; }
     private boolean estFin(int i, int j){ return labyrinthe[i][j] == 'S'; }
 
-    private boolean aGauche(int i, int j,String prec){
-        if (j==0 || prec.equals("droite")){
+    private boolean aGauche(Case lacase,ArrayList<Case> frontiere){
+        if (this.frontiereInclus(lacase,frontiere)){
             return false;
-        } else return estLibre(i , j - 1);
+        } else return estLibre(lacase.getI() , lacase.getJ());
     }
 
-    private boolean aDroite(int i, int j, String prec){
-        if (j == labyrinthe.length || prec.equals("gauche")){
+    private boolean aDroite(Case lacase,ArrayList<Case> frontiere){
+        if (this.frontiereInclus(lacase,frontiere)){
             return false;
-        }else return estLibre(i, j+1);
+        }else return estLibre(lacase.getI(), lacase.getJ());
     }
 
-    private boolean enHaut(int i, int j, String prec){
-        if (i==0 || prec.equals("bas")){
+    private boolean enHaut(Case lacase,ArrayList<Case> frontiere){
+        if (this.frontiereInclus(lacase,frontiere)){
             return false;
-        } else return estLibre(i-1, j);
+        } else return estLibre(lacase.getI(), lacase.getJ());
     }
 
-    private boolean enBas(int i, int j, String prec){
-        if (i==labyrinthe[0].length || prec.equals("haut")){
+    private boolean enBas(Case lacase,ArrayList<Case> frontiere){
+        if (this.frontiereInclus(lacase,frontiere)){
             return false;
-        } else return estLibre(i+1, j);
+        } else return estLibre(lacase.getI(), lacase.getJ());
+    }
+
+    public boolean frontiereInclus(Case test,ArrayList<Case> frontiere){
+        for (Case plop : frontiere) {
+            if (test.equals(plop)){
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
     public int enLargeur(){
 
-        Case grr = new Case(startI,startJ,0,"");
+        Case grr = new Case(startI,startJ,0);
+        ArrayList<Case> atest = new ArrayList<Case>();
         ArrayList<Case> frontiere = new ArrayList<Case>();
+        atest.add(grr);
         frontiere.add(grr);
-        while(!frontiere.isEmpty()){
-            Case test = frontiere.get(0);
-            if (enHaut(test.getI(),test.getJ(),test.getPrec())) {
-                Case enPlus = new Case(test.getI()-1,test.getJ(),test.getLongueur()+1,"haut");
-                System.out.println("haut i = "+enPlus.getI()+"  j = "+enPlus.getJ());
-                frontiere.add(enPlus);
-                if (estFin(enPlus.getI(),enPlus.getJ())){
-                    return enPlus.getLongueur();
-                }
-            }
-            if (enBas(test.getI(),test.getJ(),test.getPrec())) {
-                Case enPlus = new Case(test.getI()+1,test.getJ(),test.getLongueur()+1,"bas");
-                System.out.println("bas i = "+enPlus.getI()+"  j = "+enPlus.getJ());
-                frontiere.add(enPlus);
-                if (estFin(enPlus.getI(),enPlus.getJ())){
-                    return enPlus.getLongueur();
-                }
-            }
-            if (aDroite(test.getI(),test.getJ(),test.getPrec())) {
-                Case enPlus = new Case(test.getI(),test.getJ()+1,test.getLongueur()+1,"droite");
-                System.out.println("droite i = "+enPlus.getI()+"  j = "+enPlus.getJ());
-                frontiere.add(enPlus);
-                if (estFin(enPlus.getI(),enPlus.getJ())){
-                    return enPlus.getLongueur();
-                }
-            }
-            if (aGauche(test.getI(),test.getJ(),test.getPrec())) {
-                Case enPlus = new Case(test.getI(),test.getJ()-1,test.getLongueur()+1,"gauche");
-                System.out.println("gauche i = "+enPlus.getI()+"  j = "+enPlus.getJ());
-                frontiere.add(enPlus);
-                if (estFin(enPlus.getI(),enPlus.getJ())){
-                    return enPlus.getLongueur();
+        while(!atest.isEmpty()){
+            Case test = atest.get(0);
+
+            if (test.getI()!=0){
+                Case enPlusH = new Case(test.getI()-1,test.getJ(),test.getLongueur()+1);
+                if (enHaut(enPlusH,frontiere)) {
+                    System.out.println("haut i = "+enPlusH.getI()+"  j = "+enPlusH.getJ());
+                    atest.add(enPlusH);
+                    frontiere.add(enPlusH);
+                    if (estFin(enPlusH.getI(),enPlusH.getJ())){
+                        return enPlusH.getLongueur();
+                    }
+                }}
+
+            if (test.getI()!=labyrinthe[0].length){
+                Case enPlusB = new Case(test.getI()+1,test.getJ(),test.getLongueur()+1);
+                if (enBas(enPlusB,frontiere)) {
+                    System.out.println("bas i = "+enPlusB.getI()+"  j = "+enPlusB.getJ());
+                    atest.add(enPlusB);
+                    frontiere.add(enPlusB);
+                    if (estFin(enPlusB.getI(),enPlusB.getJ())){
+                        return enPlusB.getLongueur();
+                    }
                 }
             }
 
-            frontiere.remove(0);
+            if (test.getJ() != labyrinthe.length){
+                Case enPlusD = new Case(test.getI(),test.getJ()+1,test.getLongueur()+1);
+                if (aDroite(enPlusD,frontiere)) {
+                    System.out.println("droite i = "+enPlusD.getI()+"  j = "+enPlusD.getJ());
+                    atest.add(enPlusD);
+                    frontiere.add(enPlusD);
+                    if (estFin(enPlusD.getI(),enPlusD.getJ())){
+                        return enPlusD.getLongueur();
+                    }
+                }
+            }
+
+            if (test.getJ()!=0){
+                Case enPlusG = new Case(test.getI(),test.getJ()-1,test.getLongueur()+1);
+                if (aGauche(enPlusG,frontiere)) {
+                    System.out.println("gauche i = "+enPlusG.getI()+"  j = "+enPlusG.getJ());
+                    atest.add(enPlusG);
+                    frontiere.add(enPlusG);
+                    if (estFin(enPlusG.getI(),enPlusG.getJ())){
+                        return enPlusG.getLongueur();
+                    }
+                }
+            }
+
+            atest.remove(0);
         }
 
         return 0;
@@ -138,18 +165,73 @@ public class TP1 {
 
     public int enProfondeur(){
 
-        Case grr = new Case(startI,startJ,0,"");
+        Case grr = new Case(startI,startJ,0);
+        ArrayList<Case> atest = new ArrayList<Case>();
         ArrayList<Case> frontiere = new ArrayList<Case>();
-        frontiere.add(grr);
+        atest.add(grr);
+        while(!atest.isEmpty()){
+            Case test = atest.get(0);
+            int i = 1;
+            if (test.getI()!=0){
+                Case enPlusH = new Case(test.getI()-1,test.getJ(),test.getLongueur()+1);
+                if (enHaut(enPlusH,frontiere)) {
+                    System.out.println("haut i = "+enPlusH.getI()+"  j = "+enPlusH.getJ());
+                    atest.add(i,enPlusH);
+                    i++;
+                    frontiere.add(enPlusH);
+                    if (estFin(enPlusH.getI(),enPlusH.getJ())){
+                        return enPlusH.getLongueur();
+                    }
+                }
+            }
+            if (test.getI()!=labyrinthe[0].length){
+                Case enPlusB = new Case(test.getI()+1,test.getJ(),test.getLongueur()+1);
+                if (enBas(enPlusB,frontiere)) {
+                    System.out.println("bas i = "+enPlusB.getI()+"  j = "+enPlusB.getJ());
+                    atest.add(i,enPlusB);
+                    i++;
+                    frontiere.add(enPlusB);
+                    if (estFin(enPlusB.getI(),enPlusB.getJ())){
+                        return enPlusB.getLongueur();
+                    }
+                }
+            }
 
+            if (test.getJ() != labyrinthe.length){
+                Case enPlusD = new Case(test.getI(),test.getJ()+1,test.getLongueur()+1);
+                if (aDroite(enPlusD,frontiere)) {
+                    System.out.println("droite i = "+enPlusD.getI()+"  j = "+enPlusD.getJ());
+                    atest.add(i,enPlusD);
+                    i++;
+                    frontiere.add(enPlusD);
+                    if (estFin(enPlusD.getI(),enPlusD.getJ())){
+                        return enPlusD.getLongueur();
+                    }
+                }
+            }
+
+            if (test.getJ()!=0){
+                Case enPlusG = new Case(test.getI(),test.getJ()-1,test.getLongueur()+1);
+                if (aGauche(enPlusG,frontiere)) {
+                    System.out.println("gauche i = "+enPlusG.getI()+"  j = "+enPlusG.getJ());
+                    atest.add(i,enPlusG);
+                    i++;
+                    frontiere.add(enPlusG);
+                    if (estFin(enPlusG.getI(),enPlusG.getJ())){
+                        return enPlusG.getLongueur();
+                    }
+                }
+            }
+            atest.remove(0);
+        }
 
 
         return 0;
-    };
+    }
 
     public static void main (String[] agrs){
         TP1 lab = new TP1();
-        System.out.println(lab.enLargeur());
+        System.out.println(lab.enProfondeur());
     }
 
 }

@@ -1,22 +1,16 @@
 public class Case {
     private int i,j,longueur;
-    private String prec;
 
 
 
-    public Case(int x, int y, int lon, String preced){
+    public Case(int x, int y, int lon){
         this.i=x;
         this.j=y;
         this.longueur = lon;
-        this.prec = preced;
     }
 
     public int getI() {
         return i;
-    }
-
-    public String getPrec() {
-        return prec;
     }
 
     public int getJ() {
@@ -25,5 +19,11 @@ public class Case {
 
     public int getLongueur() {
         return longueur;
+    }
+
+    public boolean equals(Case grr){
+        if (grr.getI() == i && grr.getJ() == j){
+            return true;
+        } else return false;
     }
 }
