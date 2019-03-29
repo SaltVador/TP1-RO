@@ -19,7 +19,7 @@ public class TP1 {
     public char[][] init(){
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader("../data/labExemple.lab"));
+            BufferedReader br = new BufferedReader(new FileReader("data/labExemple.lab"));
             char[][] res = new char[20][20];
             String lecture;
             int i = 0;
@@ -61,6 +61,15 @@ public class TP1 {
         return null;
     }
 
+    public int getLongueur(){
+        //TODO retourne longueur
+        return 0;
+    }
+
+    public int getLargeur(){
+        //TODO retourne largeur
+        return 0;
+    }
 
     private boolean estLibre(int i, int j){ return labyrinthe[i][j] == '_' || labyrinthe[i][j] == 'S'; }
     private boolean estFin(int i, int j){ return labyrinthe[i][j] == 'S'; }
@@ -229,9 +238,9 @@ public class TP1 {
         return 0;
     }
 
-    public static void main (String[] agrs){
+    public static void main (String[] args){
         TP1 lab = new TP1();
-        System.out.println(lab.enProfondeur());
+        System.out.println(lab.enLargeur());
     }
 
 }
