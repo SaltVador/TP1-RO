@@ -324,7 +324,7 @@ public class TP1 {
     }
 
     public static void main (String[] agrs){
-        TP1 lab = new TP1("lab1");
+        TP1 lab = new TP1("labExemple");
         System.out.println(lab.stratEtoile());
     }
 
