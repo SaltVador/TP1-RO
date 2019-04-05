@@ -65,6 +65,15 @@ public class TP1 {
         return null;
     }
 
+    public int getLongueur(){
+        //TODO retourne longueur
+        return 0;
+    }
+
+    public int getLargeur(){
+        //TODO retourne largeur
+        return 0;
+    }
 
     private boolean estLibre(int i, int j){ return labyrinthe[i][j] == '_' || labyrinthe[i][j] == 'S'; }
     private boolean estFin(int i, int j){ return labyrinthe[i][j] == 'S'; }
