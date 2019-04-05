@@ -11,15 +11,15 @@ public class TP1 {
     private int startI, startJ,endI,endJ;
     private int longueur = 0;
 
-    public TP1(){
-        labyrinthe = init();
+    public TP1(String lab){
+        labyrinthe = init(lab);
     }
 
 
-    public char[][] init(){
+    public char[][] init(String lab){
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader("../data/labExemple.lab"));
+            BufferedReader br = new BufferedReader(new FileReader("../data/"+ lab +".lab"));
             char[][] res = new char[20][20];
             String lecture;
             int i = 0;
@@ -237,11 +237,19 @@ public class TP1 {
         Case retour = array.get(0);
         int distT = endI-retour.getI()+endJ-retour.getJ();
         if (distT<0)distT=-distT;
+        int longueur = 0;
         for (Case c : array) {
             int test = endI-c.getI()+endJ-c.getJ();
             if (test<0)test=-test;
-            if (test<distT){
+            test = test + c.getLongueur();
+            if (test == distT){
+                if (longueur>c.getLongueur()){
+                    retour = c;
+                    longueur = c.getLongueur();
+                }
+            } else if (test<distT){
                 distT=test;
+                longueur = c.getLongueur();
                 retour=c;
             }
         }
@@ -307,7 +315,7 @@ public class TP1 {
     }
 
     public static void main (String[] agrs){
-        TP1 lab = new TP1();
+        TP1 lab = new TP1("lab1");
         System.out.println(lab.stratEtoile());
     }
 
